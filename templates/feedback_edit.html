@@ -1,0 +1,14 @@
+{% extends 'base.html'  %}
+
+{% block title %}Edit feedback{% endblock%}
+
+{% block h2 %}Edit feedback{% endblock%}
+{% block content %}
+
+<form method="POST">
+	{% include "_form.html" %}
+	<a class="cancel" href="/users/{{username}}">Cancel</a>
+  <button class="g-button" type="submit">Save</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html'  %}
+
+{% block title %}Profile: {{user.username}}{% endblock%}
+
+{% block h2 %}Profile Info{% endblock%}
+{% block content %}
+
+<p class="">Username: {{user.username}}</p>
+<p class="">Email: {{user.email}}</p>
+<p class="">First name: {{user.first_name}}</p>
+<p class="">Last name: {{user.last_name}}</p>
+
+
+<Form>
+	<!-- <button class="b-button" formaction="/users/{{username}}/update">Edit Profile</button> -->
+	<button class="delete" formaction="/users/{{user.username}}/delete" formmethod="POST">Delete Account</button>
+</Form>
+
+
+<h2>Your Feedback</h2>
+<ul>
+	{% for feed in user.feedback %}
+  <li>
+		<span><b>{{feed.title}}</b></span>
+		<p>{{feed.content}}</p>
+		<Form>
+			<button class="b-button" formaction="/feedback/{{feed.id}}/update">Edit</button>
+			<button class="delete" formaction="/feedback/{{feed.id}}/delete" formmethod="POST">Delete</button>
+		</Form>
+		
+	</li>
+	{% endfor %}
+</ul>
+
+<a class="b-button" href="/users/{{user.username}}/feedback/add">Add New Feedback</a>
+
+{% endblock %}
