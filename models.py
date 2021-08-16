@@ -2,12 +2,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils import EmailType, PasswordType
 from flask_bcrypt import Bcrypt
-from sqlalchemy.schema import CheckConstraint
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import validates
-Base = declarative_base()
-from passlib.hash import bcrypt
 from wtforms import PasswordField
+
+from sqlalchemy_defaults import Column, make_lazy_configured
 
 from wtforms.validators import InputRequired, Email, Optional, URL, NumberRange, Length
 
@@ -15,19 +12,22 @@ db = SQLAlchemy()
 
 bcrypt = Bcrypt()
 
+make_lazy_configured(db.mapper)
+
 def connect_db(app):
     db.app = app
     db.init_app(app)
 
 class User(db.Model):
+    __lazy_options__ = {}
     __tablename__ = 'users'
     
     username = db.Column(db.String(20),
                         unique=True,
                         primary_key=True)
     
-    password = db.Column(db.String(),
-                        info={'validators': Length(min=6, message='Password must be at least 6 characters long'), 'form_field_class': PasswordField},
+    password = db.Column(db.String(50),
+                        info={'form_field_class': PasswordField},
                         nullable=False)
     
     email = db.Column(EmailType(50),

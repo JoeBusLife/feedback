@@ -85,7 +85,6 @@ def show_user(username):
     """ Show user profile page if correct user logged in """
     if session.get('username') == username:
         user = User.query.get(username)
-        Feedback.query
         return render_template('user.html', user=user)
     else:
         return redirect('/')
